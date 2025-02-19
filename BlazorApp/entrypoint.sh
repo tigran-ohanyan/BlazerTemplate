@@ -1,8 +1,10 @@
 #!/bin/bash
-set -e
 
-# Выполняем миграции при запуске контейнера
-dotnet ef database update --no-build
+# Путь к проекту
+PROJECT_PATH="/app/BlazorApp/BlazorApp.csproj"
 
-# Запускаем приложение
-exec dotnet BlazorApp.dll
+# Выполнение миграций EF, если это необходимо
+dotnet ef database update --project $PROJECT_PATH --startup-project $PROJECT_PATH
+
+# Запуск приложения
+dotnet BlazorApp.dll
