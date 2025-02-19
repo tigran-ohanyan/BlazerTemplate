@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  blazorapp:
+    build:
+      context: "D:\\Apps\\BlazorApp"
+      dockerfile: "BlazorApp/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/BlazorApp.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/BlazorApp.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "blazorapp:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\copkl\\.nuget\\packages:/home/app/.nuget/packages"
+    - "D:\\Apps\\BlazorApp\\BlazorApp:/app:rw"
+    - "D:\\Apps\\BlazorApp:/src:rw"
+    working_dir: "/app"

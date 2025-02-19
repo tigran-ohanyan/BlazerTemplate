@@ -1,0 +1,111 @@
+﻿@page "/weather"
+@rendermode InteractiveServer
+@using System.Net.Http.Headers;
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates showing data.</p>
+
+<span>Input Location</span>
+<input type="text" @onchange="OnLocationChanged"/>
+
+@if (forecasts == null)
+{
+<p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Temp. (C)</th>
+        <th>Temp. (F)</th>
+        <th>Summary</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var forecast in forecasts)
+    {
+    <tr>
+        <td>@forecast.Date.ToString("d")</td>
+        <td>@forecast.TemperatureC</td>
+        <td>@forecast.TemperatureF</td>
+        <td>@forecast.Summary</td>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+    private string location = "";
+    
+    protected async Task FetchDataAPI()
+    {
+        var client = new HttpClient();
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri($"https://open-weather13.p.rapidapi.com/city/{location}/EN"),
+            Headers =
+            {
+                { "x-rapidapi-key", "252a80f2ddmsh2748676ce6e2593p126b02jsn8601a52620e1" },
+                { "x-rapidapi-host", "weather-api167.p.rapidapi.com" },
+            },
+        };
+        using (var response = await client.SendAsync(request))
+        {
+            response.EnsureSuccessStatusCode();
+            var body = await response.Content.ReadAsStringAsync();
+            var weatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(body);
+            forecasts = weatherResponse?.Forecasts;
+           
+        }
+    }
+
+    private async Task OnLocationChanged(ChangeEventArgs e)
+    {
+        location = e.Value.ToString();
+        await FetchDataAPI();
+    }
+
+    public class WeatherResponse
+    {
+        public Location Location { get; set; }
+        public WeatherForecast[] Forecasts { get; set; }
+    }     
+    
+    public class Location
+    {
+        public string City { get; set; }
+        public string Country { get; set; }
+    }
+    public class WeatherForecast
+    {
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime Date { get; set; }
+        public int TemperatureC { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public string? Summary { get; set; }
+    }
+
+    public class UnixDateTimeConverter : JsonConverter<DateTime>
+    {
+        public override void WriteJson(JsonWriter writer, DateTime value, JsonSerializer serializer)
+        {
+            var unixTime = ((DateTimeOffset)value).ToUnixTimeSeconds();
+            writer.WriteValue(unixTime);
+        }
+
+        public override DateTime ReadJson(JsonReader reader, Type objectType, DateTime existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var seconds = (long)reader.Value;
+            return DateTimeOffset.FromUnixTimeSeconds(seconds).DateTime;
+        }
+    }
+
+}

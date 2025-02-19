@@ -1,0 +1,93 @@
+﻿@page "/Users"
+@rendermode InteractiveServer
+@inject ApplicationDbContext DbContext;
+
+<h2>Users list</h2>
+<ModalUsers></ModalUsers>
+
+<input @bind="email" @oninput="OnEmailChanged" placeholder="Filter by email" />
+@if (filteredUsers.Count == 0 || users.Count == 0)
+{
+<p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in filteredUsers)
+    {
+    <tr>
+        <td>@user.id</td>
+        <td>@user.first_name</td>
+        <td>@user.last_name</td>
+        <td>@user.email</td>
+        <th><button type="button" class="btn btn-danger" @onclick="() => DeleteUser(user.id)">Delete</button></th>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+
+@code {
+
+    private List<User> users = new();
+    private string email = "";
+    private List<User> filteredUsers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsersAsync();
+    }
+
+    protected async Task LoadUsersAsync()
+    {
+        try
+        {
+            users = await DbContext.Users.ToListAsync();
+            FilterUsers();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading users: {ex.Message}");
+        }
+    }
+
+    private void FilterUsers()
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            filteredUsers = users;
+        }
+        else
+        {
+            filteredUsers = users.Where(u => u.email.Contains(email, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+    }
+
+    private void OnEmailChanged(ChangeEventArgs e)
+    {
+        email = e.Value.ToString();
+        FilterUsers();
+    }
+
+    private async Task DeleteUser(int userId)
+    {
+        var user = await DbContext.Users.FindAsync(userId);
+        if (user != null)
+        {
+            DbContext.Users.Remove(user);
+            await DbContext.SaveChangesAsync();
+            await LoadUsersAsync();
+        }
+    }
+
+}

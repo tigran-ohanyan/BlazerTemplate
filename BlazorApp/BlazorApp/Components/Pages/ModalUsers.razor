@@ -1,0 +1,72 @@
+﻿@inject ApplicationDbContext DbContext;
+@using Blazorise;
+
+<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add user</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+            <div class="container">
+                <div class="input-group">
+                    <div class="form-group col-lg-12">
+                        <label for="firstName">First name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="John" @bind="firstName">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="form-group col-lg-12">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Smith" @bind="lastName">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="form-group col-lg-12">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Smith" @bind="_email">
+                    </div>
+                </div>
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Blazorise.Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Color="Blazorise.Color.Primary" Clicked="@AddUser">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+<Button Color="Blazorise.Color.Primary" Clicked="@ShowModal">Add user</Button>
+
+@code {
+    private Modal modalRef;
+    private string firstName;
+    private string lastName;
+    private string _email;
+
+    private Task ShowModal()
+    {
+        modalRef.Style = "display: block;";
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {        
+        modalRef.Style = "display: none !important;";
+
+        return modalRef.Hide();
+    }
+    private async Task AddUser()
+    {
+        if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(_email))
+        {
+            var user = new User { first_name = firstName, last_name = lastName, email = _email };
+            Console.WriteLine(user);
+            DbContext.Users.Add(user);
+            await DbContext.SaveChangesAsync();
+            HideModal();
+        }
+        else
+        {
+            Console.WriteLine("User is empty or whitespace.");
+        }
+    }
+}
