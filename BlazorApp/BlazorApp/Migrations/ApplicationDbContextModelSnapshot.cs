@@ -36,10 +36,6 @@ namespace BlazorApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("gender")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("last_name")
                         .IsRequired()
                         .HasColumnType("text");

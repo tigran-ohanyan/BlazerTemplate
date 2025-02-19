@@ -1,4 +1,6 @@
-﻿services:
+﻿version: '3.4'
+
+services:
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -12,13 +14,13 @@
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app_network
-  
+
   blazorapp:
     image: blazorapp
     build:
       context: .
       dockerfile: BlazorApp/Dockerfile
-    ports: 
+    ports:
       - "8080:8080"
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=blazorapp;Username=admin;Password=admin
@@ -26,6 +28,7 @@
       - postgres
     networks:
       - app_network
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -35,6 +38,20 @@
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
+
+  ef-migrations:
+    image: blazorapp
+    build:
+      context: .
+      dockerfile: BlazorApp/Dockerfile
+    command: dotnet ef database update
+    depends_on:
+      - postgres
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=blazorapp;Username=admin;Password=admin
+    networks:
+      - app_network
+    entrypoint: ["dotnet", "ef", "database", "update"]
 
 volumes:
   postgres_data:

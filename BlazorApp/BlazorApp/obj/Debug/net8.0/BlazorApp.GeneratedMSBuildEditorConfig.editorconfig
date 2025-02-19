@@ -20,59 +20,59 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BlazorApp
 build_property.RootNamespace = BlazorApp
-build_property.ProjectDir = D:\Apps\BlazorApp\BlazorApp\
+build_property.ProjectDir = D:\blazor\BlazorApp\BlazorApp\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Apps\BlazorApp\BlazorApp
+build_property.MSBuildProjectDirectory = D:\blazor\BlazorApp\BlazorApp
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/App.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/App.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/Counter.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/Error.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/Home.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/ModalUsers.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/ModalUsers.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNb2RhbFVzZXJzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/Users.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/Users.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2Vycy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/UsersWithMB.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/UsersWithMB.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2Vyc1dpdGhNQi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Pages/Weather.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Pages/Weather.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Routes.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/_Imports.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Layout/MainLayout.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-qgsvw684bo
 
-[D:/Apps/BlazorApp/BlazorApp/Components/Layout/NavMenu.razor]
+[D:/blazor/BlazorApp/BlazorApp/Components/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-g8o6n169oq
