@@ -47,9 +47,3 @@ ENV PATH="${PATH}:/root/.dotnet/tools"
 # Копируем опубликованные файлы
 COPY --from=publish /app/publish .
 
-# Копируем и даем права на entrypoint.sh
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Запуск приложения
-ENTRYPOINT ["/entrypoint.sh"]

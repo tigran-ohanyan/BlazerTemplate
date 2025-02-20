@@ -28,7 +28,7 @@ services:
       - postgres
     networks:
       - app_network
-
+  
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -38,22 +38,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
-
-  ef-migrations:
-    image: blazorapp
-    build:
-      context: .
-      dockerfile: BlazorApp/Dockerfile
-    #command: dotnet ef database update
-    working_dir: /app
-    depends_on:
-      - postgres
-    environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=blazorapp;Username=admin;Password=admin
-    networks:
-      - app_network
-    #entrypoint: ["dotnet", "ef", "database", "update", "--project", "BlazorApp/BlazorApp.csproj", "--msbuildprojectextensionspath", "/app/bin"]
-
 volumes:
   postgres_data:
 networks:
