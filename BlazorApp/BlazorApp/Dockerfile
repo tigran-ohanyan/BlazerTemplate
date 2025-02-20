@@ -1,4 +1,4 @@
-﻿# Используем базовый образ .NET для ASP.NET приложения
+﻿# Используем базовый образ с ASP.NET
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
@@ -8,30 +8,24 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Копируем файл проекта в контейнер
+# Копируем файл проекта и восстанавливаем зависимости
 COPY ["BlazorApp/BlazorApp.csproj", "BlazorApp/"]
-
-# Восстанавливаем зависимости
 RUN dotnet restore "BlazorApp/BlazorApp.csproj"
 
-# Копируем все остальные файлы проекта
+# Копируем все остальные файлы и собираем проект
 COPY BlazorApp/. ./BlazorApp/
-
 WORKDIR "/src/BlazorApp"
-
-# Собираем проект
 RUN dotnet build "BlazorApp.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Публикуем проект
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "BlazorApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Устанавливаем SDK и инструмент dotnet-ef
+# Финальный образ, где запускаем приложение
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
-# Устанавливаем необходимые пакеты для добавления репозитория
+# Устанавливаем необходимые пакеты
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -39,26 +33,23 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates
 
-# Добавляем репозиторий Microsoft для .NET SDK
+# Добавляем репозиторий Microsoft и ключ
 RUN wget https://packages.microsoft.com/config/debian/11/prod.list -O /etc/apt/sources.list.d/microsoft-prod.list \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc > /dev/null \
     && apt-get update
 
-# Устанавливаем .NET SDK
-RUN apt-get install -y dotnet-sdk-8.0
+# Устанавливаем .NET SDK и dotnet-ef
+RUN apt-get install -y dotnet-sdk-8.0 && dotnet tool install --global dotnet-ef
 
-# Устанавливаем инструмент dotnet-ef
-RUN dotnet tool install --global dotnet-ef
-
-# Обновляем переменную окружения PATH
+# Обновляем PATH
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Копируем опубликованные файлы
 COPY --from=publish /app/publish .
 
-# Делаем скрипт исполнимым
+# Копируем и даем права на entrypoint.sh
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Настройка Entrypoint
+# Запуск приложения
 ENTRYPOINT ["/entrypoint.sh"]

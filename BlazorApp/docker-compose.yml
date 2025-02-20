@@ -44,14 +44,15 @@ services:
     build:
       context: .
       dockerfile: BlazorApp/Dockerfile
-    command: dotnet ef database update
+    #command: dotnet ef database update
+    working_dir: /app
     depends_on:
       - postgres
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=blazorapp;Username=admin;Password=admin
     networks:
       - app_network
-    entrypoint: ["dotnet", "ef", "database", "update"]
+    #entrypoint: ["dotnet", "ef", "database", "update", "--project", "BlazorApp/BlazorApp.csproj", "--msbuildprojectextensionspath", "/app/bin"]
 
 volumes:
   postgres_data:
