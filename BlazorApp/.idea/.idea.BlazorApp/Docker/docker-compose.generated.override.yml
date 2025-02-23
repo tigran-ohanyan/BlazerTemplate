@@ -1,8 +1,9 @@
 # This is a generated file. Not intended for manual editing.
+version: "3.4"
 services:
   blazorapp:
     build:
-      context: "D:\\blazor\\BlazorApp"
+      context: "D:\\Apps\\BlazorApp"
       dockerfile: "BlazorApp/Dockerfile"
       target: "base"
     command: []
@@ -16,7 +17,7 @@ services:
     image: "blazorapp:dev"
     ports: []
     volumes:
-    - "C:\\Users\\User\\.nuget\\packages:/root/.nuget/packages"
-    - "D:\\blazor\\BlazorApp\\BlazorApp:/app:rw"
-    - "D:\\blazor\\BlazorApp:/src:rw"
+    - "C:\\Users\\copkl\\.nuget\\packages:/root/.nuget/packages"
+    - "D:\\Apps\\BlazorApp\\BlazorApp:/app:rw"
+    - "D:\\Apps\\BlazorApp:/src:rw"
     working_dir: "/app"

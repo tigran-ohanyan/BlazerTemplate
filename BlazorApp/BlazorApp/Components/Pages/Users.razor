@@ -4,15 +4,17 @@
 
 <h2>Users list</h2>
 <ModalUsers></ModalUsers>
+<div class="input-group mb-3" style="width: 200px;">
+    <input @bind="email" @oninput="OnEmailChanged" placeholder="Filter by email" class="form-control"/>
 
-<input @bind="email" @oninput="OnEmailChanged" placeholder="Filter by email" />
+</div>
 @if (filteredUsers.Count == 0 || users.Count == 0)
 {
 <p><em>Loading...</em></p>
 }
 else
 {
-<table class="table">
+<table class="table" style="color: #ffffff !important;">
     <thead>
     <tr>
         <th>Id</th>

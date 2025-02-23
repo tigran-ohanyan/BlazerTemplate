@@ -9,8 +9,11 @@
 <p>This component demonstrates showing data.</p>
 
 <span>Input Location</span>
-<input type="text" @onchange="OnLocationChanged"/>
 
+<div class="input-group mb-3" style="width: 200px;">
+    <input type="text" @onchange="OnLocationChanged" placeholder="Filter by email" class="form-control"/>
+
+</div>
 @if (forecasts == null)
 {
 <p><em>Loading...</em></p>

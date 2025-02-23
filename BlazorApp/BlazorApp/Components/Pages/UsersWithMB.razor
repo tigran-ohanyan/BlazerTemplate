@@ -11,6 +11,10 @@
 
 @* Needed for snackbars *@
 <MudSnackbarProvider />
+
+
+<h2>Users list with MudBlazor component</h2>
+<ModalUsers></ModalUsers>
 @if (filteredUsers.Count == 0 || users.Count == 0)
 {
 <p><em>Loading...</em></p>
@@ -19,9 +23,9 @@ else
 {
     <MudTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Items="@filteredUsers">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Users List</MudText>
+            <MudText Typo="Typo.h6" Color="Color.Dark">Users List</MudText>
             <MudSpacer />
-            <ModalUsers></ModalUsers>
+           
             <MudSpacer />
             <MudTextField @bind-Value="search" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
         </ToolBarContent>
@@ -38,7 +42,7 @@ else
             <MudTd DataLabel="Last Name">@context.last_name</MudTd>
             <MudTd DataLabel="Email">@context.email</MudTd>
             <MudTd DataLabel="Delete">
-                <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="() => DeleteUser(context.id)">Delete</MudButton>
+                <MudButton Variant="MudBlazor.Variant.Filled" Color="Color.Error" OnClick="() => DeleteUser(context.id)">Delete</MudButton>
             </MudTd>
         </RowTemplate>
         <PagerContent>

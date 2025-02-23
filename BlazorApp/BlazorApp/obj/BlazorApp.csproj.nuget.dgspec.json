@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\blazor\\BlazorApp\\BlazorApp\\BlazorApp.csproj": {}
+    "D:\\Apps\\BlazorApp\\BlazorApp\\BlazorApp.csproj": {}
   },
   "projects": {
-    "D:\\blazor\\BlazorApp\\BlazorApp\\BlazorApp.csproj": {
+    "D:\\Apps\\BlazorApp\\BlazorApp\\BlazorApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\blazor\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
+        "projectUniqueName": "D:\\Apps\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
         "projectName": "BlazorApp",
-        "projectPath": "D:\\blazor\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\blazor\\BlazorApp\\BlazorApp\\obj\\",
+        "projectPath": "D:\\Apps\\BlazorApp\\BlazorApp\\BlazorApp.csproj",
+        "packagesPath": "C:\\Users\\copkl\\.nuget\\packages\\",
+        "outputPath": "D:\\Apps\\BlazorApp\\BlazorApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\copkl\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -59,6 +59,19 @@
               "target": "Package",
               "version": "[1.7.4, )"
             },
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Server": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.1, )"
@@ -86,6 +99,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[9.0.3, )"
+            },
+            "Radzen.Blazor": {
+              "target": "Package",
+              "version": "[6.0.20, )"
             }
           },
           "imports": [
@@ -107,7 +124,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.405/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

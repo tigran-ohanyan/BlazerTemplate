@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+<RadzenComponents @rendermode="InteractiveAuto" />
 
     <div class="page">
         <div class="sidebar">
@@ -7,8 +7,19 @@
         </div>
 
         <main>
-            <div class="top-row px-4">
-                <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <div class="rz-text-align-right">
+                <RadzenProfileMenu>
+                    <Template>
+                        <RadzenGravatar Email="user@example.com">
+                        </RadzenGravatar>
+                    </Template>
+                    <ChildContent>
+                        <RadzenProfileMenuItem Text="Users list" Path="users" Icon="account_circle"></RadzenProfileMenuItem>
+                        <RadzenProfileMenuItem Text="Users List with MudBlazor" Path="userswithmb" Icon="line_weight"></RadzenProfileMenuItem>
+                        <RadzenProfileMenuItem Text="Counter" Path="counter" Icon="attach_file"></RadzenProfileMenuItem>
+                        <RadzenProfileMenuItem Text="Weather" Path="weather" Icon="perm_media"></RadzenProfileMenuItem>
+                    </ChildContent>
+                </RadzenProfileMenu>
             </div>
 
             <article class="content px-4">
