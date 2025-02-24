@@ -1,0 +1,151 @@
+﻿@page "/tasks"
+@rendermode InteractiveServer
+@inject ApplicationDbContext DbContext;
+
+<RadzenDropZoneContainer TItem="TasksList" Data="tasks"
+                         ItemSelector="@ItemSelector"
+                         ItemRender="@OnItemRender"
+                         CanDrop="@CanDrop"
+                         Drop="@OnDrop">
+    <ChildContent>
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="1rem" Wrap="FlexWrap.Wrap" class="rz-p-12">
+            <RadzenDropZone Value="Status.NotStarted" class="rz-display-flex rz-flex-column rz-background-color-warning-lighter rz-border-warning-light rz-border-radius-2 rz-p-4" Style="flex: 1; gap: 1rem;">
+                <ChildContent>
+                    <RadzenText Text="Not started" TextStyle="TextStyle.Subtitle2" />
+                </ChildContent>
+                <Footer>
+                    <div>
+                        <RadzenButton Size="ButtonSize.ExtraSmall" Icon="add" ButtonStyle="ButtonStyle.Success" Click="@CreateItem" />
+                    </div>
+                </Footer>
+            </RadzenDropZone>
+
+            <RadzenDropZone Value="Status.Started" class="rz-display-flex rz-flex-column rz-background-color-info-lighter rz-border-info-light rz-border-radius-2 rz-p-4" Style="flex: 1; gap: 1rem;">
+                <RadzenText Text="Started" TextStyle="TextStyle.Subtitle2" />
+            </RadzenDropZone>
+
+            <RadzenDropZone Value="Status.Completed" class="rz-display-flex rz-flex-column rz-background-color-success-lighter rz-border-success-light rz-border-radius-2 rz-p-4" Style="flex: 1; gap: 1rem;">
+                <RadzenText Text="Completed" TextStyle="TextStyle.Subtitle2" />
+            </RadzenDropZone>
+            
+
+            <RadzenDropZone Value="Status.Deleted" class="rz-display-flex rz-flex-column rz-background-color-danger-lighter rz-border-danger-light rz-border-radius-2 rz-p-4" Style="flex: 1; gap: 1rem;">
+                <RadzenText Text="Drop here to delete" TextStyle="TextStyle.Subtitle2" />
+            </RadzenDropZone>
+            <RadzenDropZone Value="Status.Bug" class="rz-display-flex rz-flex-column rz-border-danger-light rz-border-radius-2 rz-p-4" Style="flex: 1; gap: 1rem;">
+                <RadzenText Text="Bugs" TextStyle="TextStyle.Subtitle2" />
+            </RadzenDropZone>
+        </RadzenStack>
+    </ChildContent>
+    <Template>
+        <strong>@context.task_name</strong>
+        <h2>Task id = @context.Id</h2>
+    </Template>
+</RadzenDropZoneContainer>
+
+<style>
+    .dropzone {
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        padding: 12px;
+        flex: 1;
+        gap: 1rem;
+    }
+    .warning { background-color: #fff3cd; border: 2px solid #ffecb5; }
+    .info { background-color: #d1ecf1; border: 2px solid #bee5eb; }
+    .success { background-color: #d4edda; border: 2px solid #c3e6cb; }
+    .danger { background-color: #f8d7da; border: 2px solid #f5c6cb; }
+    .bug { background-color: #f8d7da; border: 2px solid #f5c6cb; }
+</style>
+
+@code {
+    private List<TasksList> tasks = new List<TasksList>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetTasks();
+    }
+
+    private async Task GetTasks()
+    {
+        try
+        {
+            tasks = await DbContext.Tasks.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading tasks: {ex.Message}");
+        }
+    }
+
+    private async Task CreateItem()
+    {
+        var newTask = new TasksList
+        {
+            task_name = "New Task",
+            description = "test",
+            userId = 1,
+            _Status = Status.NotStarted
+        };
+
+        try
+        {
+            DbContext.Tasks.Add(newTask);
+            await DbContext.SaveChangesAsync();
+            tasks.Add(newTask);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding task: {ex.Message}");
+        }
+    }
+
+    Func<TasksList, RadzenDropZone<TasksList>, bool> ItemSelector = (item, zone) =>
+        item._Status == (Status)zone.Value && item._Status != Status.Deleted;
+
+    Func<RadzenDropZoneItemEventArgs<TasksList>, bool> CanDrop = request =>
+    {
+        var targetStatus = (Status)request.ToZone.Value;
+        var currentStatus = request.Item._Status;
+
+        return targetStatus == Status.Deleted || targetStatus == Status.Bug ||
+               Math.Abs((int)currentStatus - (int)targetStatus) == 1;
+    };
+
+    void OnItemRender(RadzenDropZoneItemRenderEventArgs<TasksList> args)
+    {
+        args.Attributes["class"] = "rz-card rz-variant-filled rz-background-color-primary-light rz-color-on-primary-light";
+        args.Visible = args.Item._Status != Status.Deleted;
+    }
+
+    async Task OnDrop(RadzenDropZoneItemEventArgs<TasksList> args)
+    {
+        if (args.FromZone != args.ToZone)
+        {
+            args.Item._Status = (Status)args.ToZone.Value;
+
+            try
+            {
+                DbContext.Tasks.Update(args.Item);
+                await DbContext.SaveChangesAsync();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating task status: {ex.Message}");
+            }
+        }
+
+        if (args.ToItem != null && args.ToItem != args.Item)
+        {
+            tasks.Remove(args.Item);
+            tasks.Insert(tasks.IndexOf(args.ToItem), args.Item);
+            StateHasChanged();
+        }
+    }
+
+    
+
+}

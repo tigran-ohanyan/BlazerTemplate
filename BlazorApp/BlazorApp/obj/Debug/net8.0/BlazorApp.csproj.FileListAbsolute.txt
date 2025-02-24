@@ -298,3 +298,17 @@ D:\blazor\BlazorApp\BlazorApp\obj\Debug\net8.0\BlazorApp.pdb
 D:\blazor\BlazorApp\BlazorApp\obj\Debug\net8.0\BlazorApp.genruntimeconfig.cache
 D:\blazor\BlazorApp\BlazorApp\obj\Debug\net8.0\ref\BlazorApp.dll
 D:\Apps\BlazorApp\BlazorApp\obj\Debug\net8.0\BlazorApp.sourcelink.json
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\BrowserDebugHost.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\BrowserDebugHost.runtimeconfig.json
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\BrowserDebugProxy.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.CodeAnalysis.CSharp.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.CodeAnalysis.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.CodeAnalysis.Scripting.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.FileFormats.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.NET.WebAssembly.Webcil.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Microsoft.SymbolStore.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\BlazorDebugProxy\Newtonsoft.Json.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\Microsoft.AspNetCore.Components.WebAssembly.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\Microsoft.AspNetCore.Components.WebAssembly.Server.dll
+D:\blazor\BlazorApp\BlazorApp\bin\Debug\net8.0\Radzen.Blazor.dll
