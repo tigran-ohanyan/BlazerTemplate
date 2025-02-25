@@ -67,6 +67,13 @@ namespace BlazorApp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("role")
+                        .HasColumnType("integer");
+
                     b.HasKey("id");
 
                     b.ToTable("users", (string)null);

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BlazorApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250224113918_InitialMigration")]
+    [Migration("20250225142753_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -69,6 +69,13 @@ namespace BlazorApp.Migrations
                     b.Property<string>("last_name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("role")
+                        .HasColumnType("integer");
 
                     b.HasKey("id");
 
