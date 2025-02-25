@@ -28,6 +28,12 @@
                 </div>
                 <div class="input-group">
                     <div class="form-group col-lg-12">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="********" @bind="pass">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="form-group col-lg-12">
                         <label for="role">Role</label>
                         <Select @bind-SelectedValue="selectedRole">
                             <SelectItem Value="0">User</SelectItem>
@@ -52,6 +58,7 @@
     private string lastName;
     private string _email;
     private int selectedRole;
+    private string pass;
     
     private Task ShowModal()
     {
@@ -69,7 +76,7 @@
     {
         if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(_email))
         {
-            var user = new User { first_name = firstName, last_name = lastName, email = _email, role = selectedRole };
+            var user = new User { first_name = firstName, last_name = lastName, email = _email, role = selectedRole, password = pass};
             Console.WriteLine(user);
             DbContext.Users.Add(user);
             await DbContext.SaveChangesAsync();

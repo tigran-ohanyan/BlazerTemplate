@@ -1,6 +1,8 @@
 ﻿@page "/Users"
 @rendermode InteractiveServer
 @inject ApplicationDbContext DbContext;
+@inject Radzen.DialogService DialogService
+@using Blazorise;
 
 <h2>Users list</h2>
 <ModalUsers></ModalUsers>
@@ -32,7 +34,10 @@ else
         <td>@user.first_name</td>
         <td>@user.last_name</td>
         <td>@user.email</td>
-        <th><button type="button" class="btn btn-danger" @onclick="() => DeleteUser(user.id)">Delete</button></th>
+        <th>
+            <button type="button" class="btn btn-danger" @onclick="() => DeleteUser(user.id)">Delete</button>
+            <RadzenButton Text="Edit" ButtonStyle="ButtonStyle.Info" Click="() => EditUser(user.id)"/>
+        </th>
     </tr>
     }
     </tbody>
@@ -91,5 +96,72 @@ else
             await LoadUsersAsync();
         }
     }
+    
+    private string _firstName = "";
+    private string _lastName = "";
+    private string _email = "";
+    private int _selectedRole = 0;
+    private int _currentUserID = 0;
+    
+    private async Task EditUser(int _userid)
+    {
+        var user = users.FirstOrDefault(u => u.id == _userid);
+        if (user == null)
+        {
+            Console.WriteLine($"Ошибка: пользователь с ID {_userid} не найдена");
+            return;
+        }
+        
+        _firstName = user.first_name;
+        _lastName = user.last_name;
+        _email = user.email;
+        _selectedRole = user.role;
+        _currentUserID = user.id;
+        
+        var result = await DialogService.OpenAsync("Edit user: "+@_userid, ds =>
+            @<RadzenStack Gap="1.5rem">
+                <p>First Name: <RadzenTextBox @bind-Value="_firstName" Style="width: 100%"/></p>
+                <p>Last Name: <RadzenTextBox @bind-Value="_lastName" Style="width: 100%"/></p>
+                <p>Email <RadzenTextBox @bind-Value="_email" Style="width: 100%"/></p>
+                <div class="input-group">
+                    <div class="form-group col-lg-12">
+                        <label for="role">Role</label>
+                        <Select @bind-SelectedValue="_selectedRole">
+                            <SelectItem Value="0">User</SelectItem>
+                            <SelectItem Value="1">Moder</SelectItem>
+                            <SelectItem Value="2">Admin</SelectItem>
+                        </Select>
+                    </div>
+                </div>
+                <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="Radzen.AlignItems.Center" JustifyContent="Radzen.JustifyContent.SpaceBetween">
+                    <RadzenStack Orientation="Radzen.Orientation.Horizontal">
+                        <RadzenButton Text="Ok" Click="() => SaveUser()" Style="width: 80px;" />
+                        <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenStack>);
+    }
+    
+    private async Task SaveUser()
+    {
+        var user = users.FirstOrDefault(u => u.id == _currentUserID);
+        if (user == null)
+        {
+            Console.WriteLine($"Ошибка: пользователь с ID {_currentUserID} не найдена");
+            return;
+        }
+        
+        user.first_name = _firstName;
+        user.last_name = _lastName;
+        user.email = _email;
+        user.role = _selectedRole;
 
+        DbContext.Users.Update(user);
+        await DbContext.SaveChangesAsync();
+        StateHasChanged();
+        
+        Console.WriteLine($"Пользователь сохранена: {_currentUserID}");
+
+        DialogService.Close(true);
+    }
 }
