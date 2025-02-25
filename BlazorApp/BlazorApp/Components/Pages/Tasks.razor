@@ -1,6 +1,8 @@
 ﻿@page "/tasks"
+@using DialogService = Radzen.DialogService
 @rendermode InteractiveServer
 @inject ApplicationDbContext DbContext;
+@inject Radzen.DialogService DialogService
 
 <RadzenDropZoneContainer TItem="TasksList" Data="tasks"
                          ItemSelector="@ItemSelector"
@@ -38,8 +40,7 @@
         </RadzenStack>
     </ChildContent>
     <Template>
-        <strong>@context.task_name</strong>
-        <h2>Task id = @context.Id</h2>
+        <RadzenButton Text="@context.task_name" ButtonStyle="ButtonStyle.Secondary" Click="() => ShowTasks(context.Id)" />
     </Template>
 </RadzenDropZoneContainer>
 
@@ -110,8 +111,8 @@
         var targetStatus = (Status)request.ToZone.Value;
         var currentStatus = request.Item._Status;
 
-        return targetStatus == Status.Deleted || targetStatus == Status.Bug ||
-               Math.Abs((int)currentStatus - (int)targetStatus) == 1;
+        return targetStatus == Status.Deleted || targetStatus == Status.Bug || targetStatus == Status.NotStarted || targetStatus == Status.Started || 
+               targetStatus == Status.Completed || Math.Abs((int)currentStatus - (int)targetStatus) == 1;
     };
 
     void OnItemRender(RadzenDropZoneItemRenderEventArgs<TasksList> args)
@@ -145,7 +146,55 @@
             StateHasChanged();
         }
     }
-
+    private string _title = "";
+    private string _description = "";
+    private int _currentTaskId = 0;
     
+    private async Task ShowTasks(int _taskID)
+    {
+        var task = tasks.FirstOrDefault(t => t.Id == _taskID);
+        if (task == null)
+        {
+            Console.WriteLine($"Ошибка: Задача с ID {_taskID} не найдена");
+            return;
+        }
+        _currentTaskId = task.Id;
+        _title = task.task_name;
+        _description = task.description;
+        var result = await DialogService.OpenAsync("Task ID: "+@_currentTaskId, ds =>
+            @<RadzenStack Gap="1.5rem">
+                <p>Title: <RadzenTextBox @bind-Value="_title" Style="width: 100%"/></p>
+                <h3>Description: <RadzenTextBox @bind-Value="_description" Style="width: 100%"/></h3>
+                <RadzenStack Orientation="Radzen.Orientation.Horizontal" Gap="0.5rem" AlignItems="Radzen.AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+                    <RadzenStack Orientation="Radzen.Orientation.Horizontal">
+                        <RadzenButton Text="Ok" Click="() => SaveTask()" Style="width: 80px;" />
+                        <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenStack>);
+    }
+
+    private async Task SaveTask()
+    {
+        var task = tasks.FirstOrDefault(t => t.Id == _currentTaskId);
+        if (task == null)
+        {
+            Console.WriteLine($"Ошибка: Задача с ID {_currentTaskId} не найдена");
+            return;
+        }
+        
+        task.task_name = _title;
+        task.description = _description;
+
+        DbContext.Tasks.Update(task);
+        await DbContext.SaveChangesAsync();
+        StateHasChanged();
+        
+        Console.WriteLine($"Задача сохранена: {task.task_name} - {task.description}");
+
+        DialogService.Close(true);
+    }
 
 }
+    
+

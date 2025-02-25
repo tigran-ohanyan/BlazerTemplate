@@ -39,6 +39,7 @@ builder.Services.AddLogging(logging =>
     logging.AddConsole();
 });
 builder.Services.AddRadzenComponents();
+builder.Services.AddScoped<Radzen.DialogService>();
 
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(@"/app/keys"))
