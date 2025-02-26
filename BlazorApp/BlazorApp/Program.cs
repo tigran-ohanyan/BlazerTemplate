@@ -66,7 +66,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// Миграция базы данных
+// Миграция базы данных + добавление админа 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -74,6 +74,19 @@ using (var scope = app.Services.CreateScope())
     try
     {
         dbContext.Database.Migrate();
+        if (!dbContext.Users.Any(u => u.email == "admin@admin.com"))
+        {
+            var admin = new User
+            {
+                first_name = "admin",
+                last_name = "admin",
+                email = "admin@admin.com",
+                password = "123456",
+                role = 2
+            };
+            dbContext.Users.Add(admin);
+            dbContext.SaveChanges();
+        }
     }
     catch (Exception ex)
     {

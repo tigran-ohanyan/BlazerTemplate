@@ -1,8 +1,10 @@
 ﻿@page "/tasks"
+@using Microsoft.AspNetCore.Authorization
 @using DialogService = Radzen.DialogService
 @rendermode InteractiveServer
 @inject ApplicationDbContext DbContext;
 @inject Radzen.DialogService DialogService
+@attribute [Authorize(Roles = "administrator")]
 
 <RadzenDropZoneContainer TItem="TasksList" Data="tasks"
                          ItemSelector="@ItemSelector"

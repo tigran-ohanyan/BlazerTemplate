@@ -2,8 +2,10 @@
 @inject Radzen.DialogService DialogService
 @rendermode InteractiveServer
 @inject ApplicationDbContext DbContext;
+@using Microsoft.AspNetCore.Authorization
 @using Blazorise;
 
+@attribute [Authorize(Roles = "administrator")]
 @* Required *@
 <MudThemeProvider />
 <MudPopoverProvider />

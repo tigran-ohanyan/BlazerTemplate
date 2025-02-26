@@ -8,12 +8,21 @@
 
 
 <RadzenPanelMenu Style="width:100%" Multiple="true">
-    <RadzenPanelMenuItem Text="Home" Path="/" Icon="home"></RadzenPanelMenuItem>
-    <RadzenPanelMenuItem Text="Counter" Path="counter" Icon="note_add"></RadzenPanelMenuItem>
-    <RadzenPanelMenuItem Text="Weather" Path="weather" Icon="assessment"></RadzenPanelMenuItem>
-    <RadzenPanelMenuItem Text="Tasks" Path="tasks" Icon="assessment"></RadzenPanelMenuItem>
-    <RadzenPanelMenuItem Text="Users" Icon="people">
-        <RadzenPanelMenuItem Text="All Users" Path="users" />
-        <RadzenPanelMenuItem Text="Users With MudBlazor" Path="userswithmb" />
-    </RadzenPanelMenuItem>
+    <AuthorizeView Roles="user,administrator">
+        <Authorized>
+            <RadzenPanelMenuItem Text="Home" Path="/" Icon="home"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Counter" Path="counter" Icon="note_add"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Weather" Path="weather" Icon="assessment"></RadzenPanelMenuItem>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="administrator">
+        <Authorized>
+            <RadzenPanelMenuItem Text="Tasks" Path="tasks" Icon="assessment"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Users" Icon="people">
+                <RadzenPanelMenuItem Text="All Users" Path="users"/>
+                <RadzenPanelMenuItem Text="Users With MudBlazor" Path="userswithmb"/>
+            </RadzenPanelMenuItem>
+        </Authorized>
+    </AuthorizeView>
+    
 </RadzenPanelMenu>

@@ -2,7 +2,10 @@
 @rendermode InteractiveServer
 @inject ApplicationDbContext DbContext;
 @inject Radzen.DialogService DialogService
+@using Microsoft.AspNetCore.Authorization
 @using Blazorise;
+
+@attribute [Authorize(Roles = "administrator")]
 
 <h2>Users list</h2>
 <ModalUsers></ModalUsers>

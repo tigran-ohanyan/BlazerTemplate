@@ -13,12 +13,12 @@
             <DataAnnotationsValidator></DataAnnotationsValidator>
             <div class="mb-3">
                 <label>Username</label>
-                <InputText @bind-Value="Model.Username" class="form-control" placeholder="Username"/>
+                <InputText @bind-Value="Model.Username" class="form-control" placeholder="Email" type="email"/>
                 <ValidationMessage For="()=>Model.Username"/>
             </div>
             <div class="mb-3">
                 <label>Password</label>
-                <InputText @bind-Value="Model.Password" class="form-control" placeholder="password"/>
+                <InputText @bind-Value="Model.Password" class="form-control" placeholder="Password" type="password"/>
                 <ValidationMessage For="()=>Model.Password"/>
             </div>
             <div class="mb-3 text-center">
